@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Secret key for session management
-DB_FILE = "users.db"
 
-# Initialize Database
+# ✅ Use absolute path for SQLite database
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILE = os.path.join(BASE_DIR, "users.db")
+
+# ✅ Initialize Database
 def init_db():
     print("[INFO] Initializing Database...")
     conn = sqlite3.connect(DB_FILE)
@@ -22,7 +26,6 @@ def init_db():
     conn.close()
     print("[INFO] Database Initialized Successfully!")
 
-# Run Database Initialization
 init_db()
 
 @app.route('/')
@@ -30,7 +33,6 @@ def index():
     print("[INFO] Accessed Home Page")
     return render_template('home.html')
 
-# ✅ Registration (Stores Plain Text Passwords) with Debug Logs
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -51,7 +53,7 @@ def register():
                 conn.commit()
 
             print(f"[SUCCESS] User {username} registered successfully!")
-            session['user'] = username  # Store session
+            session['user'] = username
             return redirect(url_for('profile', username=username))
 
         except sqlite3.IntegrityError:
@@ -61,7 +63,6 @@ def register():
     print("[INFO] Rendering Registration Page")
     return render_template('register.html')
 
-# ✅ Login (Uses Plain Text Passwords) with Debug Logs
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -77,7 +78,7 @@ def login():
 
         if user:
             print(f"[SUCCESS] Login Successful for {username}")
-            session['user'] = username  # Store session
+            session['user'] = username
             return redirect(url_for('profile', username=username))
         else:
             print("[ERROR] Login Failed - Invalid Username or Password")
@@ -92,12 +93,11 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
 
-# ✅ Profile Page Debugging
 @app.route('/profile/<username>')
 def profile(username):
     if 'user' not in session:
         print("[ERROR] Unauthorized Access Attempt to Profile")
-        return redirect(url_for('login'))  # Redirect to login if not logged in
+        return redirect(url_for('login'))
 
     print(f"[INFO] Fetching Profile for: {username}")
 
