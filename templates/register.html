@@ -59,16 +59,16 @@
              Flask App
         </a>
 
+
         <!-- Navbar Right - Sign Up Only -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class=" ms-auto">
+        <div class="ms-auto">
                 {% if user %}
-                    <li class="btn btn-outline-light"><a class="nav-link" href="/logout">Logout</a></li>
+                    <a class="btn btn-outline-light" href="/logout">Logout</a>
                 {% else %}
-                    <li class="btn btn-outline-light"><a class="nav-link" href="/register">Sign Up</a></li>
-                    <li class="btn btn-outline-light"><a class="nav-link" href="/login">Login</a></li>
+                   <a class="btn btn-outline-light" href="/register">Sign Up</a>
+                    <a class="btn btn-outline-light" href="/login">Login</a>
                 {% endif %}
-            </ul>
+
         </div>
     </div>
 </nav>

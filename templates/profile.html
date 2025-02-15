@@ -12,9 +12,9 @@
         }
 
         .profile-container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
+    
+            margin: 5px ;
+            padding: 5px;
             background: white;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
@@ -39,26 +39,22 @@
         .profile-details strong {
             color: #0056b3;
         }
-        .logo-img {
-            height: 40px;
-            width: auto;
-            margin-right: 10px;
+
+        .download-section, .upload-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <!-- Logo -->
-        <a class="navbar-brand" href="/">
-           Flask App
-        </a>
-
-        </a>
-
-        <!-- Navbar Right - Sign Up Only -->
+        <a class="navbar-brand" href="/">Flask App</a>
         <div class="ms-auto">
             <a class="btn btn-outline-light" href="/logout">Logout</a>
         </div>
@@ -66,15 +62,34 @@
 </nav>
 
 <!-- Profile Content -->
-<div class="container">
+<div class="container-fluid">
     <div class="profile-container">
-        <div class="profile-header">Welcome, {{ user[1] }}</div>
+        <div class="row">
+            <!-- Left Side - Profile Details -->
+            <div class="col-md-6">
+                <div class="profile-header">Welcome, {{ user[1] }}</div>
+                <div class="profile-details">
+                    <p><strong>First Name:</strong> {{ user[3] }}</p>
+                    <p><strong>Last Name:</strong> {{ user[4] }}</p>
+                    <p><strong>Email:</strong> {{ user[5] }}</p>
+                    <p><strong>Address:</strong> {{ user[6] }}</p>
+                </div>
+            </div>
 
-        <div class="profile-details">
-            <p><strong>First Name:</strong> {{ user[3] }}</p>
-            <p><strong>Last Name:</strong> {{ user[4] }}</p>
-            <p><strong>Email:</strong> {{ user[5] }}</p>
-            <p><strong>Address:</strong> {{ user[6] }}</p>
+            <!-- Right Side - Upload and Download Section -->
+            <div class="col-md-6">
+                <!-- Upload Section -->
+                <div class="upload-section">
+                    <h5>Upload a Text File</h5>
+                    <p>Upload a text file and count letter occurrences.</p>
+                    <form action="/upload" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" class="form-control mb-3" accept=".txt" required>
+                        <button type="submit" class="btn btn-success">Upload & Process</button>
+                    </form>
+                </div>
+
+                <!-- View Letter Counts -->
+            </div>
         </div>
     </div>
 </div>
